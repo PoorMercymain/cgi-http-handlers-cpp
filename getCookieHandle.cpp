@@ -10,13 +10,12 @@ int main() {
     std::cout << "<meta charset=\"utf-8\">" << std::endl;
     std::cout << "<title>Данные формы</title> </head>" << std::endl;
     std::cout << "<body>" << std::endl;
-    std::cout << "<p>You have sent ";
+    std::cout << "<p>Succesfully got ";
 
-    for (const auto& [key, value] : http.postParameters) {
-        std::cout << key << ": " << value << "<br>";
-    }
+    std::cout << http.httpGet("getcookie") << ": "
+        << http.getCookie(http.httpGet("getcookie")) << "<br>";
 
-    std::cout << "</p>" << std::endl;
+    std::cout << "cookie data</p>" << std::endl;
     std::cout << "</body>" << std::endl;
     std::cout << "</html>" << std::endl;
 

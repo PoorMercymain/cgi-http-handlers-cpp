@@ -21,8 +21,22 @@ int main()
     std::cout << " </p>" << std::endl;
     std::cout << " <p><input type=\"submit\"></p>" << std::endl;
     std::cout << " </form></div>" << std::endl;
+
+    std::cout << "<div align=\"center\"><form action=\"setCookieHandle.cgi\" method=\"get\">" << std::endl;
+    std::cout << "<p>" << std::endl;
+    std::cout << "  <input name=\"setcookie\" placeholder=\"Cookie name\"><input name=\"value\" placeholder=\"Cookie data\">" << std::endl;
+    std::cout << " </p>" << std::endl;
+    std::cout << " <p><input type=\"submit\"></p>" << std::endl;
+    std::cout << " </form></div>" << std::endl;
     std::cout << "</body>" << std::endl;
     std::cout << "</html>" << std::endl;
+
+    std::cout << "<div align=\"center\"><form action=\"getCookieHandle.cgi\" method=\"get\">" << std::endl;
+    std::cout << "<p>" << std::endl;
+    std::cout << "  <input name=\"getcookie\" placeholder=\"Cookie to get\">" << std::endl;
+    std::cout << " </p>" << std::endl;
+    std::cout << " <p><input type=\"submit\"></p>" << std::endl;
+    std::cout << " </form></div>" << std::endl;
 
     return 0;
 }

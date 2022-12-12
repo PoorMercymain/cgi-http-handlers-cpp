@@ -1,8 +1,16 @@
 #include "HTTP.h"
+#include "database.hpp"
+#include "database.cpp"
 
-int main() {
+int main()
+{
     HTTP http;
     http.init();
+
+    database<std::string, std::string> db;
+    std::string getParameter = http.httpGet("getRow");
+
+    std::string res = db.read_one(getParameter);
 
     std::cout << "<!DOCTYPE HTML>" << std::endl;
     std::cout << "<html>" << std::endl;
@@ -10,10 +18,10 @@ int main() {
     std::cout << "<meta charset=\"utf-8\">" << std::endl;
     std::cout << "<title>Данные формы</title> </head>" << std::endl;
     std::cout << "<body>" << std::endl;
-    std::cout << "<p>You have sent ";
+    std::cout << "<p>Succesfully got ";
 
-    for (const auto& [key, value] : http.postParameters) {
-        std::cout << key << ": " << value << "<br>";
+    if (res != "") {
+        std::cout << "{ \"" << http.escaping(getParameter) << "\": \"" << http.escaping(res) << "\"}";
     }
 
     std::cout << "</p>" << std::endl;
@@ -21,5 +29,4 @@ int main() {
     std::cout << "</html>" << std::endl;
 
     http.send();
-    return 0;
 }
