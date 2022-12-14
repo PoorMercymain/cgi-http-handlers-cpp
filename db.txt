@@ -1,9 +1,14 @@
 121=4
 1lr=yes
 2222=3333
+jjj=ooo
 jjjjjj=t
 lr=yes
 lr1=yes
 lr111=yes
 lr112=no
 lr113=no
+пппппп=33з
+ъъъй=ээ
+ъэ=ж
+io=p

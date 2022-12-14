@@ -35,9 +35,59 @@ std::string HTTP::setCookie(std::string name, std::string value)
     return value;
 }
 
+std::string HTTP::rawURLDecode(std::string str)
+{
+    std::string resultString = "";
+
+    for (int i = 0; i < str.length(); i++)
+    {
+
+        if (str[i] != '%')
+        {
+            resultString.append(1, str[i]);
+        }
+        if (str[i] == '%')
+        {
+            i++; //skip '%'
+
+            if (CCtoI(str[i], str[i + 1]) < 127)
+            {
+                resultString.append(1, char(CCtoI(str[i], str[i + 1])));
+                i++; //skip one hex (other hex will be skiped by i++ in for)
+                continue;
+            }
+            
+            if ((CCtoI(str[i], str[i + 1]) & 0b11100000) == 0b11000000)
+            {
+
+                resultString.append(1, char(CCtoI(str[i], str[i + 1])));
+                i = i + 3; //skip (XX%): 2 hex numbers and '%' 
+                resultString.append(1, char(CCtoI(str[i], str[i + 1])));
+                i++; //skip one hex (other hex will be skiped by i++ in for)
+                continue;
+            }
+        }
+    }
+    return resultString;
+}
+
 HTTP::~HTTP()
 {
     return;
+}
+
+unsigned int HTTP::CtoI(char ch)
+{
+    if (ch >= 'A') {
+        return int(ch - 'A' + 10);
+    }
+
+    return int(ch - '0');
+}
+
+unsigned int HTTP::CCtoI(char ch1, char ch2)
+{
+    return ((CtoI(ch1) << 4) + CtoI(ch2));
 }
 
 HTTP::HTTP()
@@ -49,28 +99,35 @@ HTTP::HTTP()
     // parse GET params
     while (std::getline(getStringStream, key, '=')) {
         std::getline(getStringStream, val, '&');
-        this->getParameters[key] = val;
+        this->getParameters[rawURLDecode(key)] = rawURLDecode(val);
     }
     // parse cookie
     if (getenv("HTTP_COOKIE") != nullptr) {
         std::stringstream cookieStringStream(getenv("HTTP_COOKIE"));
         while (std::getline(cookieStringStream, key, '=')) {
             std::getline(cookieStringStream, val, ';');
+            key = rawURLDecode(key);
             key = ltrim(&key);
             key = escaping(key);
+            val = rawURLDecode(val);
             val = escaping(val);
             this->clientCookie[key] = val;
         }
     }
    
-    if (val == "application/x-www-form-urlencoded") {
+    std::string contentType = std::string{};
+
+    std::stringstream strstm(getenv("CONTENT_TYPE"));
+    std::getline(strstm, contentType, ';');
+
+    if (contentType == "application/x-www-form-urlencoded") {
         // parse POST params
         std::string postData;
         std::getline(std::cin, postData, static_cast<char>(0));
         std::stringstream postStringStream(postData);
         while (std::getline(postStringStream, key, '=')) {
             std::getline(postStringStream, val, '&');
-            this->postParameters[key] = val;
+            this->postParameters[rawURLDecode(key)] = rawURLDecode(val);
         }
     }
     return;

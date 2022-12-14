@@ -9,8 +9,8 @@ int main()
 
     database<std::string, std::string> db;
 
-    std::string getParameterKey = http.httpGet("key");
-    std::string getParameterValue = http.httpGet("value");
+    std::string getParameterKey = http.rawURLDecode(http.httpGet("key"));
+    std::string getParameterValue = http.rawURLDecode(http.httpGet("value"));
 
     std::cout << "<!DOCTYPE HTML>" << std::endl;
     std::cout << "<html>" << std::endl;
@@ -20,8 +20,8 @@ int main()
     std::cout << "<body>" << std::endl;
     std::cout << "<p>Succesfully added ";
 
-    http.setCookie("lastKey", getParameterKey);
-    http.setCookie(getParameterKey, getParameterValue);
+    http.setCookie("lastKey", http.rawURLDecode(getParameterKey));
+    http.setCookie(http.rawURLDecode(getParameterKey), http.rawURLDecode(getParameterValue));
 
     int res = db.write(getParameterKey, getParameterValue);
     if (res == 0) {

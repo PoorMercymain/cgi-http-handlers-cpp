@@ -9,7 +9,7 @@ int main()
 
     database<std::string, std::string> db;
 
-    std::string getParameter = http.httpGet("drop");
+    std::string getParameter = http.rawURLDecode(http.httpGet("drop"));
 
     std::cout << "<!DOCTYPE HTML>" << std::endl;
     std::cout << "<html>" << std::endl;

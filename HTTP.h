@@ -50,6 +50,9 @@ public:
     //метод, устанавливающий значение (value) элемента serverCookie под ключом name
     std::string setCookie(std::string name, std::string value);
 
+    //метод для декодирования строки из 16-ричного представления в plain-text
+    std::string rawURLDecode(std::string str);
+
     //деструктор
     ~HTTP();
 
@@ -62,6 +65,12 @@ private:
 
     //строковой поток для вывода клиенту
     std::stringstream cgiOut;
+
+    //приватные методы
+    //Метод для конвертации одного char (соответствующего одному шестнадцатеричному числу) в unsigned int
+    unsigned int CtoI(char ch);
+    //Метод для конвертации двух char (соответствующих шестнадцатеричным числам) в unsigned int
+    unsigned int CCtoI(char ch1, char ch2);
 };
 
 #endif //C___HTTP_H

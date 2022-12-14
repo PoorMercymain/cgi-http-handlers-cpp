@@ -12,8 +12,8 @@ int main() {
     std::cout << "<body>" << std::endl;
     std::cout << "<p>Succesfully got ";
 
-    std::cout << http.httpGet("getcookie") << ": "
-        << http.getCookie(http.httpGet("getcookie")) << "<br></p>";
+    std::cout << http.rawURLDecode(http.httpGet("getcookie")) << ": "
+        << http.getCookie(http.rawURLDecode(http.httpGet("getcookie"))) << "<br></p>";
 
     std::cout << "</body>" << std::endl;
     std::cout << "</html>" << std::endl;

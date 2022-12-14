@@ -15,15 +15,15 @@ int main() {
     std::cout << "<body>" << std::endl;
     std::cout << "<p>Succesfully sent ";
 
-    std::cout << http.httpGet("setcookie") << ": "
-        << http.setCookie(http.httpGet("setcookie"), http.httpGet("value")) << "<br></p>";
+    std::cout << http.rawURLDecode(http.httpGet("setcookie")) << ": "
+        << http.setCookie(http.rawURLDecode(http.httpGet("setcookie")), http.rawURLDecode(http.httpGet("value"))) << "<br></p>";
 
     std::cout << "</body>" << std::endl;
     std::cout << "</html>" << std::endl;
 
-    http.setCookie("lastKey", http.httpGet("setcookie"));
+    http.setCookie("lastKey", http.rawURLDecode(http.httpGet("setcookie")));
 
-    int res = db.write(http.httpGet("setcookie"), http.httpGet("value"));
+    int res = db.write(http.rawURLDecode(http.httpGet("setcookie")), http.rawURLDecode(http.httpGet("value")));
 
     if (res != 0) {
         std::cout << "{\"status\": [500, \"Server Error\"]}";
