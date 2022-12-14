@@ -16,9 +16,8 @@ int main() {
     std::cout << "<p>Succesfully sent ";
 
     std::cout << http.httpGet("setcookie") << ": "
-        << http.setCookie(http.httpGet("setcookie"), http.httpGet("value")) << "<br>";
+        << http.setCookie(http.httpGet("setcookie"), http.httpGet("value")) << "<br></p>";
 
-    std::cout << "cookie data</p>" << std::endl;
     std::cout << "</body>" << std::endl;
     std::cout << "</html>" << std::endl;
 
