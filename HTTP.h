@@ -10,6 +10,14 @@
 #include <sstream>
 #include <iostream>
 
+typedef struct {
+    std::string filename; 	// реальное имя файла
+    std::string type;	// MIME-тип файла
+    std::string tmp_name; // временное имя файла
+    int error; 	// код ошибки (0, если ошибки нет)
+    int size; 	// размер загружаемого файла
+} UploadedFile;
+
 class HTTP {
 public:
     //публичные поля
@@ -24,6 +32,12 @@ public:
 
     //данные cookie, сохраненные на сервере
     std::map<std::string, std::string> serverCookie;
+
+    
+
+    std::map<std::string, int> INTCONFIG = { {"MAX_FILESIZE",2048} };
+
+    std::map <std::string, UploadedFile> filesData;
 
     //публичные методы
     //конструктор
@@ -52,6 +66,17 @@ public:
 
     //метод для декодирования строки из 16-ричного представления в plain-text
     std::string rawURLDecode(std::string str);
+
+    //возвращает свойства файла по его названию
+    std::string getHeader(std::string name); //TODO: implement
+
+    UploadedFile getFile(std::string name); //TODO: implement
+
+    // загружает файл в указанную директорию
+    int move_uploaded_file(UploadedFile tmpFile, std::string path);
+
+    //отправляет данные из файла в cout
+    int httpSendFile(std::string name);
 
     //деструктор
     ~HTTP();
